@@ -12,6 +12,7 @@ void setup() {
   pwm.setPWMFreq(FREQUENCY);
   Serial.begin(9600);
   zero();
+  delay(3000);
 }
 
 int pulseWidth(int angle) {
@@ -48,14 +49,37 @@ void loop() {
     else if (data == '5'){
       sentado();
       Serial.println("sentado");
-      uint16_t  getpwm = pwm.getPWM(0);
-      Serial.println(getpwm);
     }
+    else if (data == '6'){
+      sentado_patita();
+      Serial.println("sentado patita");
+    }
+    else if (data == '7'){
+      caminar();
+      Serial.println("camina");
+    }
+    /*
+    zero_up();
+    delay(2000);
+    parado();
+    delay(3000);
+    sentado();
+    delay(2000);
+    sentado_patita();
+    delay(2000);
+    sentado();
+    delay(2000);
+    parado();
+    delay(2000);
+    acostado();
+    delay(2000);
+    zero_down();
+    delay(3000);*/
   }
   //delay(5000);
   //parado();
   //pwm.setPWM(0, 0, pulseWidth(0));
-  delay(20);
+  //delay(20);
 }
 //Minimos
 
@@ -103,10 +127,6 @@ void parado(){
   delay(200);
   pwm.setPWM(0, 0, pulseWidth(80)); //FIZQ
   pwm.setPWM(4, 0, pulseWidth(180)); //FDER
-  
-  
-
-  
 }
 
 void sentado(){
@@ -128,20 +148,6 @@ void sentado(){
   pwm.setPWM(8, 0, pulseWidth(55)); //AIZQ
   pwm.setPWM(12, 0, pulseWidth(215)); //ADER
 }
-// Mid
-
-//FDER 0 -- 90 Inicial
-//FIZQ 270 -- 180 Inicial
-//ADER 0 -- 90 Inicial
-//AIZQ 270 -- 180 Inicial
-
-
-//-------------------
-// Down
-//FIZQ 0
-//FDER 270
-//AIZQ 0
-//ADER 270
 
 void acostado(){
   //Acostado
@@ -220,6 +226,84 @@ void zero(){
   pwm.setPWM(8, 0, pulseWidth(0)); //AIZQ
   pwm.setPWM(12, 0, pulseWidth(270)); //ADER
 }
+
+void sentado_patita(){
+  //Parado
+  //Up
+  pwm.setPWM(2, 0, pulseWidth(100)); //FIZQ 
+  pwm.setPWM(6, 0, pulseWidth(180)); //FDER
+  pwm.setPWM(10, 0, pulseWidth(170)); //AIZQ
+  pwm.setPWM(14, 0, pulseWidth(100)); //ADER
+
+  ///////////////MID
+  pwm.setPWM(1, 0, pulseWidth(140)); //FIZQ 
+  pwm.setPWM(5, 0, pulseWidth(220)); //FDER
+  pwm.setPWM(9, 0, pulseWidth(180)); //AIZQ
+  pwm.setPWM(13, 0, pulseWidth(90)); //ADER
+  ////////////DOWN
+  pwm.setPWM(0, 0, pulseWidth(120)); //FIZQ
+  pwm.setPWM(4, 0, pulseWidth(110)); //FDER
+  pwm.setPWM(8, 0, pulseWidth(55)); //AIZQ
+  pwm.setPWM(12, 0, pulseWidth(215)); //ADER
+
+  for (int i =0;i<4;i++){
+    up(4,110, 120);
+    delay(10);
+    down(4,120,110);
+  }
+}
+
+void caminar(){ 
+  //Parado
+  //Up
+  pwm.setPWM(2, 0, pulseWidth(100)); //FIZQ
+  pwm.setPWM(6, 0, pulseWidth(180)); //FDER
+  pwm.setPWM(10, 0, pulseWidth(170)); //AIZQ
+
+  pwm.setPWM(14, 0, pulseWidth(100)); //ADER
+
+  ///////////////MID
+  /*
+  pwm.setPWM(9, 0, pulseWidth(150)); //AIZQ
+  pwm.setPWM(13, 0, pulseWidth(120)); //ADER
+  pwm.setPWM(1, 0, pulseWidth(150)); //FIZQ 
+  pwm.setPWM(5, 0, pulseWidth(130)); //FDER*/
+
+  pwm.setPWM(5,0,pulseWidth(110)); //FDER MID
+  pwm.setPWM(9,0,pulseWidth(110)); //AIZQ MID
+  pwm.setPWM(4,0,pulseWidth(160)); //FDER DOWN
+  pwm.setPWM(8,0,pulseWidth(110)); //AIZQ DOWN
+  delay(20);
+  pwm.setPWM(4,0,pulseWidth(180)); //FDER DOWN
+  pwm.setPWM(8,0,pulseWidth(90)); //AIZQ DOWN
+
+
+  
+
+  ////////////DOWN
+  /*
+  pwm.setPWM(8, 0, pulseWidth(90)); //AIZQ
+  pwm.setPWM(12, 0, pulseWidth(180)); //ADER
+  delay(200);
+  pwm.setPWM(0, 0, pulseWidth(80)); //FIZQ
+  pwm.setPWM(4, 0, pulseWidth(180)); //FDER*/
+}
+
+//-------------
+// Mid
+
+//FDER 0 -- 90 Inicial
+//FIZQ 270 -- 180 Inicial
+//ADER 0 -- 90 Inicial
+//AIZQ 270 -- 180 Inicial
+
+
+//-------------------
+// Down
+//FIZQ 0
+//FDER 270
+//AIZQ 0
+//ADER 270
 
 void up(int canal, int angle_0, int angle_1){
   int aj;
